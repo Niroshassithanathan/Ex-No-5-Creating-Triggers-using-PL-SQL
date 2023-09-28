@@ -39,13 +39,15 @@ CREATE TABLE salary_log (
 -- Insert the values in the employee table
 insert into employe values(1,'Kar','IT',1000000);
 insert into employe values(2,'Boha','SALES',500000)
-Create employee table
-image
+```
+## Create employee table
+![image](https://github.com/Niroshassithanathan/Ex-No-5-Creating-Triggers-using-PL-SQL/assets/121418437/cd17dfe9-754a-4fe7-9bb0-8e269a64824e)
 
-Create salary_log table
-image
+## Create salary_log table
+![image](https://github.com/Niroshassithanathan/Ex-No-5-Creating-Triggers-using-PL-SQL/assets/121418437/3d437a85-ae45-4b15-adf4-9efb0085e002)
 
-PLSQL Trigger code
+## PLSQL Trigger code
+```
 -- Create the trigger
 CREATE OR REPLACE TRIGGER log_sal_update
 BEFORE UPDATE ON employe
