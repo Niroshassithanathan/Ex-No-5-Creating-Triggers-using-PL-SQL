@@ -20,61 +20,56 @@ To create a Trigger using PL/SQL.
 8.Display the employee table, salary_log table.
 
 ## Program:
-```
-CREATE TABLE employe(
-  empid NUMBER,
-  empname VARCHAR2(10),
-  dept VARCHAR2(10),
-  salary NUMBER
-);
 
-CREATE TABLE salary_log (
-  log_id NUMBER GENERATED ALWAYS AS IDENTITY,
-  empid NUMBER,
-  empname VARCHAR2(10),
-  old_salary NUMBER,
-  new_salary NUMBER,
-  update_date DATE
-);
--- Insert the values in the employee table
-insert into employe values(1,'Kar','IT',1000000);
-insert into employe values(2,'Boha','SALES',500000)
-```
 ## Create employee table
-![image](https://github.com/Niroshassithanathan/Ex-No-5-Creating-Triggers-using-PL-SQL/assets/121418437/cd17dfe9-754a-4fe7-9bb0-8e269a64824e)
+## Query:
+```
+CREATE TABLE employee (empid INT PRIMARY KEY,empname VARCHAR(10),dept VARCHAR(10),salary DECIMAL(10, 2));
+
+insert into employee values (1,'Abi','HR',35000);
+insert into employee values (2,'Divya','TL',25000);
+
+select * from employee;
+```
+## Table:
+![image](https://github.com/Niroshassithanathan/Ex-No-5-Creating-Triggers-using-PL-SQL/assets/121418437/94920838-edc5-4ad9-a9be-2528ba700eae)
 
 ## Create salary_log table
-![image](https://github.com/Niroshassithanathan/Ex-No-5-Creating-Triggers-using-PL-SQL/assets/121418437/3d437a85-ae45-4b15-adf4-9efb0085e002)
-
-## PLSQL Trigger code
+## Query:
 ```
--- Create the trigger
-CREATE OR REPLACE TRIGGER log_sal_update
-BEFORE UPDATE ON employe
-FOR EACH ROW
+CREATE TABLE salary_log (log_id INT AUTO_INCREMENT PRIMARY KEY,empid INT,empname VARCHAR(10),old_salary DECIMAL(10, 2),
+new_salary DECIMAL(10, 2),update_date DATE);
+
+desc salary_log;
+```
+## Table:
+![image](https://github.com/Niroshassithanathan/Ex-No-5-Creating-Triggers-using-PL-SQL/assets/121418437/61e8f38c-feef-4a99-bdbd-3abacbdefe0a)
+
+## PLSQL Trigger code:
+```
+DELIMITER //
+CREATE TRIGGER log_salary_update AFTER UPDATE ON employee FOR EACH ROW
 BEGIN
-  IF :OLD.salary != :NEW.salary THEN
-    INSERT INTO sal_log (empid, empname, old_salary, new_salary, update_date)
-    VALUES (:OLD.empid, :OLD.empname, :OLD.salary, :NEW.salary, SYSDATE);
-  END IF;
+  INSERT INTO salary_log (empid, empname, old_salary, new_salary, update_date) VALUES (OLD.empid, OLD.empname,
+OLD.salary, NEW.salary, NOW());
 END;
-/
--- Insert the values in the employee table
-insert into employe values(1,'Shakthi','IT',1000000);
-insert into employe values(2,'Suju','SALES',500000);
-
--- Update the salary of an employee
-UPDATE employe
-SET salary = 60000
-WHERE empid = 1;
--- Display the employee table
-SELECT * FROM employe;
-
--- Display the salary_log table
-SELECT * FROM sal_log;
+//
+DELIMITER ;
 ```
 ## Output:
-![image](https://github.com/Niroshassithanathan/Ex-No-5-Creating-Triggers-using-PL-SQL/assets/121418437/fb03c599-e2e1-4aef-820f-b5e80293b866)
+![image](https://github.com/Niroshassithanathan/Ex-No-5-Creating-Triggers-using-PL-SQL/assets/121418437/186ccd94-c7ca-4de2-a27d-b09bfe8dcd08)
+
+## Updated Tables:
+## Query:
+```
+UPDATE employee SET salary = 50000 WHERE empid = 1;
+UPDATE employee SET salary = 40000 WHERE empid = 2;
+
+SELECT * FROM employee;
+SELECT * FROM salary_log;
+```
+## Output:
+![image](https://github.com/Niroshassithanathan/Ex-No-5-Creating-Triggers-using-PL-SQL/assets/121418437/e974def6-ef09-456b-aa98-81d4e8cae9e0)
 
 ## Result:
 Thus the program implemented successfully.
